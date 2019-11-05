@@ -1,26 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+//Pages 
+import themeStyle from './util/theme'
+import { home, login, signup} from './pages';
+import jwtDecode from 'jwt-decode';
+//Redux
+import { Provider} from 'react-redux';
+import store from './redux/store';  
+import { SET_AUTHENTICATED } from './redux/types'; 
+import { logoutUser, getUserData } from './redux/actions/userActions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+//Components
+import Navbar from './components/Navbar';
+import AuthRoute from './util/AuthRoute'
+import axios from 'axios';
+const theme = createMuiTheme(themeStyle);
+
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
+    window.location.href = '/login';
+  } else {
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch(getUserData());
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <MuiThemeProvider theme = {theme}>
+        <Provider store={store}>
+          <Router>
+            <Navbar/>
+            <div className="container">
+              <Switch>
+                <Route exact path='/' component={home}/>
+                <AuthRoute 
+                  exact
+                  path='/login' 
+                  component={login} 
+                  />
+                <AuthRoute 
+                  exact
+                  path='/signup' 
+                  component={signup} 
+                />
+              </Switch>
+            </div>
+          </Router>
+        </Provider>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;
