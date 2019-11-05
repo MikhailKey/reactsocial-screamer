@@ -4,11 +4,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import CustomButton from '../util/customButton';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
+import LikeButton from './LikeButton';
+
 
 //MUI
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -16,6 +17,8 @@ import Typography from '@material-ui/core/Typography';
 //Icons
 import CloseIcon from '@material-ui/icons/Close';
 import UnfoldMore from '@material-ui/icons/UnfoldMore';
+import ChatIcon from '@material-ui/icons/Chat';
+
 
 //redux
 import { connect } from 'react-redux';
@@ -75,6 +78,15 @@ const ScreamDialog = (props) => {
   }
   } = props;
 
+  let likes = '';
+  if (likeCount) {
+    if (likeCount === 1 || likeCount.toString().split('').pop() === 1) {
+      likes = 'like';
+    } else {
+      likes = 'likes'
+    }
+  }
+  
   const dialogMarkup = loading ? (
     <div className={classes.spinnerDiv}>
       <CircularProgress size={100} thickness={2} />
@@ -96,6 +108,12 @@ const ScreamDialog = (props) => {
           <Typography variant="body1">
             {body}
           </Typography>
+          <LikeButton screamId={screamId}/> 
+          <span>{likeCount} {likes}</span>
+        <CustomButton tip="comments">
+          <ChatIcon color="primary" />
+        </CustomButton>
+        <span>{commentCount} comments</span>
         </Grid>
       </Grid>
     )
