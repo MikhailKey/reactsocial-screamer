@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import CustomButton from '../util/customButton';
+import CustomButton from '../../util/customButton';
 import propTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { deleteScream } from '../redux/actions/dataActions';
+import { deleteScream } from '../../redux/actions/dataActions';
 
 //mui
 import Button from '@material-ui/core/Button';

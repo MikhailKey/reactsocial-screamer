@@ -1,11 +1,12 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import CustomButton from '../util/customButton';
+import CustomButton from '../../util/customButton';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
-
+import Comments from './Comments';
+import CommentForm from './CommentForm'; 
 
 //MUI
 import Dialog from '@material-ui/core/Dialog';
@@ -22,47 +23,40 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 //redux
 import { connect } from 'react-redux';
-import { getScream } from '../redux/actions/dataActions';
+import { getScream, clearErrors } from '../../redux/actions/dataActions';
 
-const styles = theme => ({
-  invisibleSeparator: {
-    border: 'none',
-    margin: 4
-  },
-  ProfileImage: {
-    maxWidth: 200,
-    height: 200,
-    borderRadius: '50%',
-    objectFit: 'cover'
-  },
-  dialogContent: {
-    padding: 20
-  },
-  closeButton: {
-    position: 'absolute',
-    left: '90%',
-  },
-  expandButton: {
-    position: 'absolute',
-    bottom: '15%',
-    left: '80%',
-  },
-  spinnerDiv: {
-    textAlign: 'center',
-    marginTop: 50,
-    marginBottom: 50,
-  }
+const styles = (theme) => ({
+  ...theme.comments
 })
 const ScreamDialog = (props) => {
   const [open, setOpen] = useState(false);
+  const [oldPath, setOldPath] = useState('');
+  const [newPath, setNewPath] = useState('');
+
 
   const handleOpen = () => {
+    let oldPath = window.location.pathname;
+
+    const {userHandle, screamId} = props;
+    const newPath = `/users/${userHandle}/scream/${screamId}`;
+    if (oldPath.indexOf(screamId) > -1 && newPath.indexOf(screamId) > -1) {
+      oldPath = `/users/${userHandle}`;
+    } 
+    window.history.pushState(null, null, newPath);
     setOpen(true);
+    setOldPath(oldPath);
+    setNewPath(newPath);
     props.getScream(props.screamId)
   }
-
+  useEffect(() => {
+    if (props.openDialog) {
+      handleOpen()
+    }
+  }, [])
   const handleClose = () => {
+    window.history.pushState(null, null, oldPath);
     setOpen(false);
+    props.clearErrors();
   }
 
   const { classes, scream: {
@@ -72,7 +66,8 @@ const ScreamDialog = (props) => {
     likeCount,
     commentCount,
     userImage,
-    userHandle
+    userHandle,
+    comments
   }, UI: {
     loading
   }
@@ -115,6 +110,9 @@ const ScreamDialog = (props) => {
         </CustomButton>
         <span>{commentCount} comments</span>
         </Grid>
+        <hr className={classes.visibleSeparator}/>
+        <CommentForm screamId={screamId}/>
+        <Comments comments={comments}/>
       </Grid>
     )
   return (
@@ -140,6 +138,7 @@ ScreamDialog.propTypes = {
   userHandle: PropTypes.string.isRequired,
   scream: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
+  clearErrors: PropTypes.func.isRequired,
 }
 const mapStateToProps = state => ({
   scream: state.data.scream,
@@ -147,7 +146,8 @@ const mapStateToProps = state => ({
 })
 
 const mapActionsToProps = {
-  getScream
+  getScream,
+  clearErrors
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(ScreamDialog))

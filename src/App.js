@@ -5,7 +5,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 //Pages 
 import themeStyle from './util/theme'
-import { home, login, signup} from './pages';
+import { home, login, signup, User} from './pages';
 import jwtDecode from 'jwt-decode';
 //Redux
 import { Provider} from 'react-redux';
@@ -14,7 +14,7 @@ import { SET_AUTHENTICATED } from './redux/types';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 
 //Components
-import Navbar from './components/Navbar';
+import Navbar from './components/layout/Navbar';
 import AuthRoute from './util/AuthRoute'
 import axios from 'axios';
 const theme = createMuiTheme(themeStyle);
@@ -52,6 +52,8 @@ class App extends Component {
                   path='/signup' 
                   component={signup} 
                 />
+                <Route exact path='/users/:handle' component={User}/>
+                <Route exact path="/users/:handle/scream/:screamId" component={User}/>
               </Switch>
             </div>
           </Router>

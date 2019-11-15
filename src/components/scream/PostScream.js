@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
-import CustomButton from '../util/customButton';
+import CustomButton from '../../util/customButton';
 //redux
 import { connect } from 'react-redux';
-import { postScream } from '../redux/actions/dataActions';
+import { postScream } from '../../redux/actions/dataActions';
 //mui
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
@@ -35,30 +35,16 @@ const PostScream = (props) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setErrors(props.UI.errors);
-  }, [props.UI.errors, props.UI]);
+    if (props.UI.errors) {
+      setErrors(props.UI.errors);
+    }
+    if (!props.UI.errors && !props.UI.loading) {
+      setBody('');
+      handleClose();
+      setErrors({});
+    }
+  }, [props.UI.loading, props.UI.errors]);
 
-  useEffect(() => {
-    setBody('');
-    handleClose();
-    console.log(props.UI.loading)
-  }, [props.UI.loading]);
-
-  useEffect(() => {
-    console.log(props)
-  }, [props])
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.UI.errors) {
-  //     this.setState({
-  //       errors: nextProps.UI.errors
-  //     })
-  //   }
-  //   if (!nextProps.UI.errors && !nextProps.UI.loading) {
-  //     this.setState({body: ''});
-  //     this.handleClose()
-  //   }
-  // }
   const handleOpen = () => { 
     setOpen(true);
   }

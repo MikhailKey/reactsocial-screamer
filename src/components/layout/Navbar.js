@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomButton from '../util/customButton';
-import PostScream from '../components/PostScream';
+import CustomButton from '../../util/customButton';
+import PostScream from '../scream/PostScream';
+// import Notifications from './Notifications';
 //MUI stuff
 
 import AppBar from '@material-ui/core/AppBar';
@@ -10,7 +11,6 @@ import ToolBar from '@material-ui/core/ToolBar';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
-import Notifications from '@material-ui/icons/Notifications';
 
 class Navbar extends Component {
   render() {
@@ -27,9 +27,7 @@ class Navbar extends Component {
                 </CustomButton>
               </Link>
               <Link to="/">
-                <CustomButton tip="notifications">
-                  <Notifications color="secondary" />
-                </CustomButton>
+               {/* <Notifications/> */}
               </Link>
             </Fragment>
           ) : (
