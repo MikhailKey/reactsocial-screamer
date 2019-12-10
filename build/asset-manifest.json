@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/reactsocial-screamer/static/css/main.f7bee724.chunk.css",
+    "main.js": "/reactsocial-screamer/static/js/main.dde81a51.chunk.js",
+    "main.js.map": "/reactsocial-screamer/static/js/main.dde81a51.chunk.js.map",
+    "runtime-main.js": "/reactsocial-screamer/static/js/runtime-main.cf0b837d.js",
+    "runtime-main.js.map": "/reactsocial-screamer/static/js/runtime-main.cf0b837d.js.map",
+    "static/js/2.62ca4664.chunk.js": "/reactsocial-screamer/static/js/2.62ca4664.chunk.js",
+    "static/js/2.62ca4664.chunk.js.map": "/reactsocial-screamer/static/js/2.62ca4664.chunk.js.map",
+    "index.html": "/reactsocial-screamer/index.html",
+    "precache-manifest.5e96d1cb23ad8b6eed64f232217d4acc.js": "/reactsocial-screamer/precache-manifest.5e96d1cb23ad8b6eed64f232217d4acc.js",
+    "service-worker.js": "/reactsocial-screamer/service-worker.js",
+    "static/css/main.f7bee724.chunk.css.map": "/reactsocial-screamer/static/css/main.f7bee724.chunk.css.map",
+    "static/media/login.png": "/reactsocial-screamer/static/media/login.48f997ae.png",
+    "static/media/profile-image.png": "/reactsocial-screamer/static/media/profile-image.5a021ab9.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cf0b837d.js",
+    "static/js/2.62ca4664.chunk.js",
+    "static/css/main.f7bee724.chunk.css",
+    "static/js/main.dde81a51.chunk.js"
+  ]
+}
