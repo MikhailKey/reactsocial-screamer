@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import AppIcon from '../images/login.png';
@@ -13,57 +13,68 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 //redux stuff
 import { connect } from 'react-redux';
-import { loginUser } from '../redux/actions/userActions';
+import { signupUser } from '../redux/actions/userActions';
 
 const styles = (theme) => ({
   ...theme.forms
 })
 
-const Login = props => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
-
+const Signup = props => {
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    handle: '',
+    errors: {}
+  })
   useEffect(() => {
     if (props.UI.errors) {
-      setErrors(props.UI.errors)
+      setState({
+        ...state,
+        errors: props.UI.errors
+      })
     }
   }, [props.UI.errors])
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const userData = {
-      email,
-      password
-    }
-    props.loginUser(userData, props.history);
+    event.preventDefault();
+    const newUserData = {
+      ...state,
+    };
+    // const newUserData = {
+    //   state.email,
+    //   state.password,
+    //   state.confirmPassword,
+    //   state.handle,
+    // };
+    props.signupUser(newUserData, props.history);
   };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
-  }
-  const { classes, UI: { loading } } = props;
+  const { classes, UI: { loading } } = this.props;
+  const { errors } = this.state;
   return (
     <Grid container className={classes.form}>
       <Grid item sm />
       <Grid item sm>
         <img className={classes.icon} src={AppIcon} alt="Register icon" />
         <Typography variant="h3" className={classes.pageTitle}>
-          Login
+          Sign up
                     </Typography>
-        <form noValidate onSubmit={handleSubmit}>
+        <form noValidate onSubmit={this.handleSubmit}>
           <TextField
             className={classes.textField}
             id="email"
             name="email"
             type="email"
             label="Email"
-            value={email}
-            onChange={handleEmailChange}
+            value={this.state.email}
             helperText={errors.email}
             error={errors.email ? true : false}
+            onChange={this.handleChange}
             fullWidth
           />
           <TextField
@@ -72,10 +83,34 @@ const Login = props => {
             name="password"
             type="password"
             label="Password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={this.state.password}
             helperText={errors.password}
             error={errors.password ? true : false}
+            onChange={this.handleChange}
+            fullWidth
+          />
+          <TextField
+            className={classes.textField}
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            label="Confirm password"
+            value={this.state.confirmPassword}
+            helperText={errors.confirmPassword}
+            error={errors.confirmPassword ? true : false}
+            onChange={this.handleChange}
+            fullWidth
+          />
+          <TextField
+            className={classes.textField}
+            id="handle"
+            name="handle"
+            type="text"
+            label="Handle"
+            value={this.state.handle}
+            helperText={errors.handle}
+            error={errors.handle ? true : false}
+            onChange={this.handleChange}
             fullWidth
           />
           {errors.general && (
@@ -89,30 +124,28 @@ const Login = props => {
             color="primary"
             className={classes.button}
             disabled={loading}
-          >Login
+          >Sign up
                         {loading && (
               <CircularProgress color="secondary" size={30} className={classes.progress} />
             )}</Button>
           <br />
-          <small className={classes.small}>Don't have an account? <Link className={classes.link} to='/signup'>Sign up!</Link></small>
+          <small className={classes.small}>Already have an account? <Link className={classes.link} to='/login'>Login!</Link></small>
         </form>
       </Grid>
       <Grid item sm />
     </Grid>
   )
 }
-Login.propTypes = {
+
+Signup.propTypes = {
   classes: PropTypes.object.isRequired,
-  loginUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired
 }
 const mapStateToProps = (state) => ({
   user: state.user,
-  UI: state.UI,
+  UI: state.UI
 })
-const mapActionsToProps = {
-  loginUser
-}
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Login));
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(Signup))

@@ -19,7 +19,7 @@ const styles =  {
     left: '90%'
   }
 }
-function DeleteScream(props) {
+const DeleteScream = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true)

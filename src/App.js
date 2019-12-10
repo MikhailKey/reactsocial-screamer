@@ -5,7 +5,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 //Pages 
 import themeStyle from './util/theme'
-import { home, login, signup, User} from './pages';
+import { Home, Login, Signup, User} from './pages';
 import jwtDecode from 'jwt-decode';
 //Redux
 import { Provider} from 'react-redux';
@@ -19,6 +19,7 @@ import AuthRoute from './util/AuthRoute'
 import axios from 'axios';
 const theme = createMuiTheme(themeStyle);
 
+axios.defaults.baseURL = "https://us-central1-mikhail95-react-social.cloudfunctions.net/api";
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
@@ -41,16 +42,16 @@ class App extends Component {
             <Navbar/>
             <div className="container">
               <Switch>
-                <Route exact path='/' component={home}/>
+                <Route exact path='/' component={Home}/>
                 <AuthRoute 
                   exact
                   path='/login' 
-                  component={login} 
+                  component={Login} 
                   />
                 <AuthRoute 
                   exact
                   path='/signup' 
-                  component={signup} 
+                  component={Signup} 
                 />
                 <Route exact path='/users/:handle' component={User}/>
                 <Route exact path="/users/:handle/scream/:screamId" component={User}/>

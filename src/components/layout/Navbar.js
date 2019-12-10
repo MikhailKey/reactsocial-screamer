@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomButton from '../../util/customButton';
 import PostScream from '../scream/PostScream';
-// import Notifications from './Notifications';
+import Notifications from './Notifications';
 //MUI stuff
 
 import AppBar from '@material-ui/core/AppBar';
@@ -12,36 +12,33 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 
-class Navbar extends Component {
-  render() {
-    const { authenticated } = this.props;
-    return (
-      <AppBar>
-        <ToolBar className="nav-container">
-          {authenticated ? (
+const Navbar = props => {
+  const { authenticated } = props;
+  return (
+    <AppBar>
+      <ToolBar className="nav-container">
+        {authenticated ? (
+          <Fragment>
+            <PostScream />
+            <Link to="/">
+              <CustomButton tip="home">
+                <HomeIcon color="secondary" />
+              </CustomButton>
+            </Link>
+            <Link to="/">
+              <Notifications />
+            </Link>
+          </Fragment>
+        ) : (
             <Fragment>
-              <PostScream />
-              <Link to="/">
-                <CustomButton tip="home">
-                  <HomeIcon color="secondary" />
-                </CustomButton>
-              </Link>
-              <Link to="/">
-               {/* <Notifications/> */}
-              </Link>
+              <Button component={Link} to="/login" color="inherit">Login</Button>
+              <Button component={Link} to="/" color="inherit">Home</Button>
+              <Button component={Link} to="/signup" color="inherit">Sign up</Button>
             </Fragment>
-          ) : (
-              <Fragment>
-                <Button component={Link} to="/login" color="inherit">Login</Button>
-                <Button component={Link} to="/" color="inherit">Home</Button>
-                <Button component={Link} to="/signup" color="inherit">Sign up</Button>
-              </Fragment>
-            )}
-
-        </ToolBar>
-      </AppBar>
-    )
-  }
+          )}
+      </ToolBar>
+    </AppBar>
+  )
 }
 Navbar.propTypes = {
   authenticated: PropTypes.bool.isRequired

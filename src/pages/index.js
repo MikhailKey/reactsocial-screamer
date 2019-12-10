@@ -1,11 +1,11 @@
-import home from './home';
-import login from './login';
-import signup from './signup';
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
 import User from './user';
 
 export {
-    home,
-    login,
-    signup,
+    Home,
+    Login,
+    Signup,
     User
 }

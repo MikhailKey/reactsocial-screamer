@@ -22,6 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
+import ProfileSkeleton from '../../util/ProfileSkeleton';
 
 const styles = (theme) => ({
     paper: {
@@ -158,7 +159,7 @@ const Profile = props => {
             </Button>
         </div>
     </Paper>
-)) : (<p>loading...</p>)
+)) : (<ProfileSkeleton/>)
 
 return profileMarkup;
 
